@@ -3,7 +3,7 @@ class ThinkingSphinx::Deltas::SidekiqDelta::FlagAsDeletedJob
 
   # Runs Sphinx's indexer tool to process the index. Currently assumes Sphinx
   # is running.
-  sidekiq_options lock: :until_executed, retry: true, queue: 'ts_delta', lock_prefix: "tsflagasdeleted"
+  sidekiq_options lock: :until_executed, retry: true, queue: 'ts_delta', lock_prefix: "tsflagasdeleted", lock_ttl: 1.hour.to_i
 
   def perform(index, document_id)
     ThinkingSphinx::Deltas::DeleteJob.new(index, document_id).perform
